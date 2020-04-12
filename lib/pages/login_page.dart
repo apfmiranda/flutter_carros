@@ -1,3 +1,6 @@
+import 'package:apfmiranda/pages/home_page.dart';
+import 'package:apfmiranda/pages/login_api.dart';
+import 'package:apfmiranda/utils/nav.dart';
 import 'package:apfmiranda/widgets/app_button.dart';
 import 'package:apfmiranda/widgets/app_text.dart';
 import 'package:flutter/material.dart';
@@ -74,12 +77,19 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 
-  _onClickLogin() {
+  _onClickLogin() async {
     if(!_formKey.currentState.validate()){
       return;
     }
     String login  = _tLogin.text;
     String senha  = _tSenha.text;
-    print("Login: $login, Senha: $senha");
+    bool ok = await LoginApi.login(login, senha) ;
+
+    if (ok){
+      push(context,HomePage());
+    } else {
+      print("Erro de no login");
+    }
+
   }
 }
