@@ -1,16 +1,23 @@
+import 'dart:convert';
+
+import 'package:apfmiranda/pages/usuario.dart';
 import 'package:http/http.dart' as http;
 
 class LoginApi {
-  static Future<bool> login(String login, String senha) async {
-    var url = 'http://livrowebservices.com.br/rest/login';
+  static Future<Usuario> login(String login, String senha) async {
+    var url = 'https://carros-springboot.herokuapp.com/api/v2/login';
 
-    final params =  {'login': login, 'senha': senha};
+    Map<String, String> headers = {"Content-Type": "application/json"};
 
-    var response = await http.post(url,body: params );
+    Map params =  {
+      "username": login,
+      "password": senha
+    };
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    String s = json.encode(params);
+    var response = await http.post(url, body: s, headers: headers );
 
-    return true;
+    Map mapResponse = json.decode(response.body);
+    return Usuario.fromJson(mapResponse);
   }
 }

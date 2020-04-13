@@ -1,5 +1,6 @@
 import 'package:apfmiranda/pages/home_page.dart';
 import 'package:apfmiranda/pages/login_api.dart';
+import 'package:apfmiranda/pages/usuario.dart';
 import 'package:apfmiranda/utils/nav.dart';
 import 'package:apfmiranda/widgets/app_button.dart';
 import 'package:apfmiranda/widgets/app_text.dart';
@@ -83,9 +84,11 @@ class _LoginPageState extends State<LoginPage> {
     }
     String login  = _tLogin.text;
     String senha  = _tSenha.text;
-    bool ok = await LoginApi.login(login, senha) ;
+    Usuario user = await LoginApi.login(login, senha) ;
 
-    if (ok){
+    if (user != null){
+      print(">>> $user");
+
       push(context,HomePage());
     } else {
       print("Erro de no login");
