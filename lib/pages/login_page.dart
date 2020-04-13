@@ -23,7 +23,6 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _showProgess = false;
 
-
   @override
   void initState() {
     super.initState();

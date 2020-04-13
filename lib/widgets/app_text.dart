@@ -12,14 +12,14 @@ class AppText extends StatelessWidget {
   FocusNode focusNode;
   FocusNode nextFocus;
 
-  AppText(this.label, this.hint, {this.password, this.controller, this.validator,
+  AppText(this.label, this.hint, {this.password = false, this.controller, this.validator,
       this.keyboardType, this.textInputAction, this.focusNode, this.nextFocus,});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      obscureText: password = false,
+      obscureText: password,
       validator: validator,
       keyboardType: keyboardType,
       textInputAction: TextInputAction.next,

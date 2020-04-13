@@ -1,3 +1,4 @@
+import 'package:apfmiranda/widgets/drawer_list.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -8,6 +9,7 @@ class HomePage extends StatelessWidget {
         title: Text("Carros"),
       ),
       body: _body(),
+      drawer: DrawerList(),
     );
   }
 
