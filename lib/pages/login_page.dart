@@ -21,6 +21,9 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _focusSenha = FocusScopeNode();
 
+  bool _showProgess = false;
+
+
   @override
   void initState() {
     super.initState();
@@ -58,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
               focusNode: _focusSenha,
             ),
             SizedBox(height: 20,),
-            AppButton("Login", onPressed: _onClickLogin)
+            AppButton("Login", onPressed: _onClickLogin, showProgess: _showProgess,)
           ],
         ),
       ),
@@ -86,6 +89,11 @@ class _LoginPageState extends State<LoginPage> {
     }
     String login  = _tLogin.text;
     String senha  = _tSenha.text;
+
+    setState(() {
+      _showProgess = true;
+    });
+
     ApiResponse response = await LoginApi.login(login, senha) ;
 
     if (response.ok){
@@ -97,5 +105,11 @@ class _LoginPageState extends State<LoginPage> {
       alert(context, response.msg);
     }
 
+    setState(() {
+      _showProgess = false;
+    });
+
   }
+
+
 }
