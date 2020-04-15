@@ -1,4 +1,4 @@
-import 'package:apfmiranda/pages/login_page.dart';
+import 'package:apfmiranda/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());

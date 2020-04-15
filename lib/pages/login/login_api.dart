@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:apfmiranda/pages/api_response.dart';
-import 'package:apfmiranda/pages/usuario.dart';
+import 'package:apfmiranda/pages/login/usuario.dart';
 import 'package:http/http.dart' as http;
 
 class LoginApi {

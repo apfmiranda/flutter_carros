@@ -1,7 +1,7 @@
 import 'package:apfmiranda/pages/api_response.dart';
-import 'package:apfmiranda/pages/home_page.dart';
-import 'package:apfmiranda/pages/login_api.dart';
-import 'package:apfmiranda/pages/usuario.dart';
+import 'package:apfmiranda/pages/carro/home_page.dart';
+import 'package:apfmiranda/pages/login/login_api.dart';
+import 'package:apfmiranda/pages/login/usuario.dart';
 import 'package:apfmiranda/utils/alert.dart';
 import 'package:apfmiranda/utils/nav.dart';
 import 'package:apfmiranda/widgets/app_button.dart';
