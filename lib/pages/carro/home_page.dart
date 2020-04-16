@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
         itemBuilder: (context,index){
           Carro c = carros[index];
           return Card(
-            color: Colors.grey[150],
+            color: Colors.grey[100],
             child: Container(
               padding: EdgeInsets.all(10),
               child: Column(
@@ -45,12 +45,12 @@ class HomePage extends StatelessWidget {
                 children: <Widget>[
                   Center(
                     child: Image.network(
-                      c.urlFoto,
+                      c.urlFoto ?? "http://storage.googleapis.com/carros-flutterweb.appspot.com/IMG_20200412_112527.jpg",
                       width: 150,
                     ),
                   ),
                   Text(
-                      c.nome,
+                      c.nome ?? "Sem nome",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 25),
