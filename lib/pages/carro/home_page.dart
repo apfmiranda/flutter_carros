@@ -16,57 +16,69 @@ class HomePage extends StatelessWidget {
   }
 
   _body() {
-    List<Carro> carros = CarrosApi.getCarros();
+    Future<List<Carro>> carros = CarrosApi.getCarros();
     
-    return Container(
-      padding: EdgeInsets.all(16),
-      child: ListView.builder(
-          itemCount: carros.length,
-          itemBuilder: (context,index){
-            Carro c = carros[index];
-            return Card(
-              color: Colors.grey[150],
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Center(
-                      child: Image.network(
-                        c.urlFoto,
-                        width: 150,
-                      ),
-                    ),
-                    Text(
-                        c.nome,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 25),
-                    ),
-                    Text(
-                      "Descrição...",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    ButtonBar(
-                      children: <Widget>[
-                        FlatButton(
-                          child: const Text('DETALHES'),
-                          onPressed: () { /* ... */ },
-                        ),
-                        FlatButton(
-                          child: const Text('SHARE'),
-                          onPressed: () { /* ... */ },
-                        ),
-                      ],
-                    ),
-
-                  ]
-                ),
-              ),
-            );
-
-
-          }),
+    return FutureBuilder(
+      future: carros, builder: (context, snapshot) {
+        List<Carro> carros = snapshot.data;
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator(),);
+        }
+        return _listView(carros);
+    },
     );
+  }
+
+  Container _listView(List<Carro> carros) {
+    return Container(
+    padding: EdgeInsets.all(16),
+    child: ListView.builder(
+        itemCount: carros != null ? carros.length: 0,
+        itemBuilder: (context,index){
+          Carro c = carros[index];
+          return Card(
+            color: Colors.grey[150],
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Center(
+                    child: Image.network(
+                      c.urlFoto,
+                      width: 150,
+                    ),
+                  ),
+                  Text(
+                      c.nome,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 25),
+                  ),
+                  Text(
+                    "Descrição...",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  ButtonBar(
+                    children: <Widget>[
+                      FlatButton(
+                        child: const Text('DETALHES'),
+                        onPressed: () { /* ... */ },
+                      ),
+                      FlatButton(
+                        child: const Text('SHARE'),
+                        onPressed: () { /* ... */ },
+                      ),
+                    ],
+                  ),
+
+                ]
+              ),
+            ),
+          );
+
+
+        }),
+  );
   }
 }
