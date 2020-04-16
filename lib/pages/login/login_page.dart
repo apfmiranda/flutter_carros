@@ -15,8 +15,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _tLogin = TextEditingController();
-  final _tSenha = TextEditingController();
+  final _tLogin = TextEditingController(text: "user");
+  final _tSenha = TextEditingController(text: "123");
 
   final _formKey = GlobalKey<FormState>();
   final _focusSenha = FocusScopeNode();
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
       _showProgess = true;
     });
 
-    ApiResponse response = await LoginApi.login(login, senha) ;
+    ApiResponse response = await LoginApi.login(login, senha ) ;
 
     if (response.ok){
       Usuario user = response.result;
