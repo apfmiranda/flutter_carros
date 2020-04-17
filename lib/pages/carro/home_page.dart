@@ -1,5 +1,6 @@
 import 'package:apfmiranda/pages/carro/carros_api.dart';
 import 'package:apfmiranda/pages/carro/carros_listView.dart';
+import 'package:apfmiranda/utils/prefs.dart';
 import 'package:apfmiranda/widgets/drawer_list.dart';
 import 'package:flutter/material.dart';
 
@@ -17,9 +18,14 @@ class _HomePageState extends State<HomePage>
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
 
-    _tabController.index = 1;
+    Future<int> future = Prefs.getInt("tabIdx");
+
+    future.then((int tabIdx){
+      _tabController.index = tabIdx;
+    });
+
     _tabController.addListener((){
-      print("tabb ${_tabController.index}");
+      Prefs.setInt("tabIdx", _tabController.index);
     });
   }
 
