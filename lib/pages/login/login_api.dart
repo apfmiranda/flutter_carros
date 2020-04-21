@@ -25,9 +25,6 @@ class LoginApi {
 
         user.save();
 
-        Usuario user2 = await Usuario.get();
-
-        print("user.prefs: $user2");
 
         return ApiResponse.ok(Usuario.fromJson(mapResponse));
       }
