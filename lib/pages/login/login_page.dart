@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _focusSenha = FocusScopeNode();
 
-  final _srteamController = StreamController<bool>();
+  final _streamController = StreamController<bool>();
 
   @override
   void initState() {
@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 20,),
             StreamBuilder<bool>(
-              stream: _srteamController.stream,
+              stream: _streamController.stream,
               initialData: false,
               builder: (context, snapshot) {
                 return AppButton("Login", onPressed: _onClickLogin, showProgess: snapshot.data,);
@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
     String login  = _tLogin.text;
     String senha  = _tSenha.text;
 
-    _srteamController.add(true);
+    _streamController.add(true);
 
     ApiResponse response = await LoginApi.login(login, senha ) ;
 
@@ -120,8 +120,14 @@ class _LoginPageState extends State<LoginPage> {
       alert(context, response.msg);
     }
 
-    _srteamController.add(false);
+    _streamController.add(false);
 
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _streamController.close();
   }
 
 
