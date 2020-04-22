@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'carro.dart';
@@ -18,6 +19,20 @@ class CarroPage extends StatelessWidget {
   }
 
   _body() {
-    return Center(child: Image.network(this.carro.urlFoto));
+    return Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Image.network(this.carro.urlFoto),
+              Text(
+                this.carro.descricao ?? "Sem descrição",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 16),)
+            ],
+          ),
+        );
+
   }
 }
