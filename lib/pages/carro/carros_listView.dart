@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:apfmiranda/pages/carro/carro.dart';
 import 'package:apfmiranda/pages/carro/carro_page.dart';
 import 'package:apfmiranda/pages/carro/carros_api.dart';
@@ -16,6 +18,7 @@ class CarrosListView extends StatefulWidget {
 class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAliveClientMixin<CarrosListView>{
 
   List<Carro> carros;
+  final _streamController = StreamController<List<Carro>>();
 
   @override
   bool get wantKeepAlive => true;
@@ -23,26 +26,42 @@ class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAlive
 
   @override
   void initState() {
+    super.initState();
     _loadData();
   }
 
   _loadData() async {
     List<Carro> carros = await CarrosApi.getCarros(widget.tipo);
-    setState(() {
-      this.carros = carros;
-    });
+    _streamController.add(carros);
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    if (carros == null) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-    return _listView(carros);
+    return StreamBuilder(
+      stream: _streamController.stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasError){
+          return Center(
+            child: Text(
+                "Não foi possível ober lista de carros",
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 22
+                )
+            ),
+          );
+        }
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        List<Carro> carros = snapshot.data;
+        return _listView(carros);
+      },
+    );
 
 
   }
