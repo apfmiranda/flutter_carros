@@ -2,6 +2,7 @@ import 'package:apfmiranda/pages/carro/carro.dart';
 import 'package:apfmiranda/pages/carro/carro_page.dart';
 import 'package:apfmiranda/pages/carro/carros_bloc.dart';
 import 'package:apfmiranda/utils/nav.dart';
+import 'package:apfmiranda/widgets/text_error.dart';
 import 'package:flutter/material.dart';
 
 class CarrosListView extends StatefulWidget {
@@ -22,14 +23,11 @@ class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAlive
   @override
   bool get wantKeepAlive => true;
 
-
   @override
   void initState() {
     super.initState();
     _bloc.fetch(widget.tipo);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +37,7 @@ class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAlive
       stream: _bloc.stream,
       builder: (context, snapshot) {
         if (snapshot.hasError){
-          return Center(
-            child: Text(
-                "Não foi possível ober lista de carros",
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 22
-                )
-            ),
-          );
+          return TextError("Não foi pessível buscar os carros");
         }
         if (!snapshot.hasData) {
           return Center(
@@ -58,8 +48,6 @@ class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAlive
         return _listView(carros);
       },
     );
-
-
   }
 
   Container _listView(List<Carro> carros) {
