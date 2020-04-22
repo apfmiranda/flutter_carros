@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:apfmiranda/pages/api_response.dart';
 import 'package:apfmiranda/pages/carro/home_page.dart';
-import 'package:apfmiranda/pages/login/login_api.dart';
+import 'package:apfmiranda/pages/login/login_bloc.dart';
 import 'package:apfmiranda/pages/login/usuario.dart';
 import 'package:apfmiranda/utils/alert.dart';
 import 'package:apfmiranda/utils/nav.dart';
@@ -23,7 +23,9 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _focusSenha = FocusScopeNode();
 
-  final _streamController = StreamController<bool>();
+
+
+  final _bloc = LoginBloc();
 
   @override
   void initState() {
@@ -73,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 20,),
             StreamBuilder<bool>(
-              stream: _streamController.stream,
+              stream: _bloc.stream,
               initialData: false,
               builder: (context, snapshot) {
                 return AppButton("Login", onPressed: _onClickLogin, showProgess: snapshot.data,);
@@ -107,9 +109,9 @@ class _LoginPageState extends State<LoginPage> {
     String login  = _tLogin.text;
     String senha  = _tSenha.text;
 
-    _streamController.add(true);
 
-    ApiResponse response = await LoginApi.login(login, senha ) ;
+
+    ApiResponse response = await _bloc.login(login, senha ) ;
 
     if (response.ok){
       Usuario user = response.result;
@@ -120,14 +122,14 @@ class _LoginPageState extends State<LoginPage> {
       alert(context, response.msg);
     }
 
-    _streamController.add(false);
+
 
   }
 
   @override
   void dispose() {
     super.dispose();
-    _streamController.close();
+    _bloc.dispose();
   }
 
 
