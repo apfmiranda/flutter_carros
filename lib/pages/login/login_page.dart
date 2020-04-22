@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:apfmiranda/pages/api_response.dart';
 import 'package:apfmiranda/pages/carro/home_page.dart';
 import 'package:apfmiranda/pages/login/login_api.dart';
@@ -21,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _focusSenha = FocusScopeNode();
 
-  bool _showProgess = false;
+  final _srteamController = StreamController<bool>();
 
   @override
   void initState() {
@@ -70,7 +72,13 @@ class _LoginPageState extends State<LoginPage> {
               focusNode: _focusSenha,
             ),
             SizedBox(height: 20,),
-            AppButton("Login", onPressed: _onClickLogin, showProgess: _showProgess,)
+            StreamBuilder<bool>(
+              stream: _srteamController.stream,
+              initialData: false,
+              builder: (context, snapshot) {
+                return AppButton("Login", onPressed: _onClickLogin, showProgess: snapshot.data,);
+              }
+            )
           ],
         ),
       ),
@@ -99,9 +107,7 @@ class _LoginPageState extends State<LoginPage> {
     String login  = _tLogin.text;
     String senha  = _tSenha.text;
 
-    setState(() {
-      _showProgess = true;
-    });
+    _srteamController.add(true);
 
     ApiResponse response = await LoginApi.login(login, senha ) ;
 
@@ -114,9 +120,7 @@ class _LoginPageState extends State<LoginPage> {
       alert(context, response.msg);
     }
 
-    setState(() {
-      _showProgess = false;
-    });
+    _srteamController.add(false);
 
   }
 
