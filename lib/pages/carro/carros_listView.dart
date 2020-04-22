@@ -1,5 +1,7 @@
 import 'package:apfmiranda/pages/carro/carro.dart';
+import 'package:apfmiranda/pages/carro/carro_page.dart';
 import 'package:apfmiranda/pages/carro/carros_api.dart';
+import 'package:apfmiranda/utils/nav.dart';
 import 'package:flutter/material.dart';
 
 class CarrosListView extends StatefulWidget {
@@ -86,7 +88,7 @@ class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAlive
                           FlatButton(
                             child: const Text('DETALHES'),
                             onPressed: () {
-                              /* ... */
+                              push(context, CarroPage(c));
                             },
                           ),
                           FlatButton(
