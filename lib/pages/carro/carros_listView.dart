@@ -1,9 +1,10 @@
 import 'package:apfmiranda/pages/carro/carro.dart';
 import 'package:apfmiranda/pages/carro/carro_page.dart';
-import 'package:apfmiranda/pages/carro/carros_bloc.dart';
+import 'package:apfmiranda/pages/carro/carros_model.dart';
 import 'package:apfmiranda/utils/nav.dart';
 import 'package:apfmiranda/widgets/text_error.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class CarrosListView extends StatefulWidget {
   String tipo;
@@ -16,9 +17,7 @@ class CarrosListView extends StatefulWidget {
 
 class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAliveClientMixin<CarrosListView>{
 
-  List<Carro> carros;
-
-  final _bloc = CarrosBloc();
+  final _model = CarrosModel();
 
   @override
   bool get wantKeepAlive => true;
@@ -26,25 +25,33 @@ class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAlive
   @override
   void initState() {
     super.initState();
-    _bloc.fetch(widget.tipo);
+    _fetch();
+  }
+
+  _fetch() {
+    _model.fetch(widget.tipo);
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    return StreamBuilder(
-      stream: _bloc.stream,
-      builder: (context, snapshot) {
-        if (snapshot.hasError){
-          return TextError("Não foi pessível buscar os carros");
+    return Observer(
+      builder: (_) {
+        List<Carro> carros = _model.carros;
+
+        if (_model.error != null){
+          return TextError(
+            "Não foi pessível buscar os carros /n/n clique aqui",
+            onPressed: _fetch,
+          );
         }
-        if (!snapshot.hasData) {
+        if (carros == null) {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
-        List<Carro> carros = snapshot.data;
+
         return _listView(carros);
       },
     );
@@ -104,11 +111,7 @@ class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAlive
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _bloc.dispose();
-  }
+
 
 
 }
